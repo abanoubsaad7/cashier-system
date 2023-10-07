@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+  <body class="container bodyCustom">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">item</th>
+          <th scope="col">price</th>
+          <th scope="col">manage</th>
+        </tr>
+      </thead>
+      <tbody id="item-table-body">
+        <% items.forEach((currentItem,index)=> { %>
+          <tr>
+            <td>
+              <%= index + 1 %>
+            </td>
+            <td>
+              <%= currentItem.name %>
+            </td>
+            <td>
+              <%= currentItem.price %>
+            </td>
+            <td>
+              <a href="update/<%= currentItem._id %>" class="btn btn-primary">update</a>
+              <a href="delete-item/<%= currentItem._id %>" class="btn btn-danger">delete</a>
+            </td>
+          </tr>
+          <% }); %>
+      </tbody>
+    </table>
+    <div>
+      <a href="add-item" class="btn btn-lg btn-info"><i class="fa-solid fa-plus"></i>add new item to use</a>
+    </div>
+  </body>
+
+</html>

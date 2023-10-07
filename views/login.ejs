@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head') %>
+
+  <body class="container bodyCustom">
+  <form action="/login" method="post">
+    <label>username</label>
+    <br><br>
+    <input type="text" name="username"><br><br>
+    <label>password</label>
+    <br><br>
+    <input type="password" name="password"><br><br>
+    <label>role:</label>
+    <select name="role" style="margin: 1%;">
+      <option value="admin">admin</option>
+      <option value="moderator">moderator</option>
+    </select>
+    <br>
+    <input type="submit" class="btn btn-lg btn-success" value="log in">
+  </form>
+</body>
+
+</html>

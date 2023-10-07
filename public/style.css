@@ -1,0 +1,12 @@
+.bodyCustom{
+  background-color: whitesmoke;
+  padding: 3% 0;
+}
+.receipts-report{
+  padding: 1%;
+  height: 450px;
+  overflow-y: auto;
+}
+.receipts-report::-webkit-scrollbar{
+  width: 0;
+}

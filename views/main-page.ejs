@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+<body class="container bodyCustom">
+  <a href="register" class="btn btn-lg btn-dark">add new account</a>
+  <a href="manage-item" class="btn btn-lg btn-dark">manage items</a>
+  <a href="set-receipt" class="btn btn-lg btn-dark">set receipt</a>
+  <br><br>
+  <a href="receipt-search-number" class="btn btn-lg btn-dark">report-search-number</a>
+  <a href="daily-report" class="btn btn-lg btn-dark">daily-report</a>
+  <a href="monthly-report" class="btn btn-lg btn-dark">monthly-report</a>
+  <br><br>
+  <form action="/logOut" method="post">
+    <input type="submit" class="btn btn-lg btn-dark" value="log Out">
+  </form>
+</body>
+</html>

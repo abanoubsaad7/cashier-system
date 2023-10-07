@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head') %>
+
+  <body class="container bodyCustom">
+
+    <form action="/daily-report" method="get">
+      <label>Report Date:</label>
+      <input type="date" id="date" name="date">
+      <button type="submit" class="btn btn-lg btn-success"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+    </form>
+
+    <% if (recieptsMatchWithDate.length> 0) { %>
+      <label>filter by pay type: </label>
+      <select id="payTypeFilter">
+        <option value="All">All</option>
+        <option value="cash">cash</option>
+        <option value="visa">visa</option>
+      </select>
+      <!-- Display the results here -->
+      <h2>Results:</h2>
+      <div class="row receipts-report">
+        <% recieptsMatchWithDate.forEach((receipt)=> { %>
+
+          <div class="col-lg-2" style="margin: 1% 5%;">
+            <div class="card" style="width: 18rem;" data-paytype="<%= receipt.payType %>">
+              <div class="card-body">
+                <h5 class="card-title">reciept number: <%= receipt.receiptNumber %>
+                </h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Client Name: <%= receipt.clientName %>
+                </h6>
+                <p class="card-text payTypeText">pay type: <%= receipt.payType %>
+                </p>
+                <p class="card-text">Total price of this receipt: <span class="price">
+                    <%= receipt.totalPrice %>
+                  </span> <span>LE</span></p>
+                <a href="reciept/<%= receipt._id %>" class="card-link">see more</a>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+      </div>
+      <% } else { %>
+        <p>No results found for the selected date.</p>
+        <% } %>
+          <h2>total Price : <span id="totalPrice"></span> <span>LE</span> </h2>
+          <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              const payTypeFilter = document.getElementById('payTypeFilter');
+              const cards = document.querySelectorAll('.card');
+              const totalDisplay = document.getElementById('totalPrice');
+
+              function updateTotalPrice() {
+                const selectedPayType = payTypeFilter.value.toLowerCase();
+                let totalPrice = 0;
+
+                cards.forEach((card) => {
+                  const cardPayType = card.getAttribute('data-paytype').toLowerCase();
+
+                  if (selectedPayType === 'all' || selectedPayType === cardPayType) {
+                    card.parentElement.style.display = 'block';
+                    totalPrice += Number(card.querySelector('.price').textContent);
+                  } else {
+                    card.parentElement.style.display = 'none';
+                  }
+                });
+
+                totalDisplay.textContent = totalPrice;
+              }
+
+              // Initial total price calculation
+              updateTotalPrice();
+
+              payTypeFilter.addEventListener('change', () => {
+                updateTotalPrice();
+              });
+            });
+
+
+          </script>
+  </body>
+
+</html>

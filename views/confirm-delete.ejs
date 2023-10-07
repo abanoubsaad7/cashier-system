@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+
+  <body class="container bodyCustom">
+  <h3>are you sure you want delete this item?</h3>
+  <br>
+  <button data-linkid="<%= objItem._id %>" class="btn btn-lg btn-danger delete">yes delete</button>
+  <script>
+    const btnelement = document.querySelector(".delete")
+    const itemId = btnelement.getAttribute("data-linkid");
+    btnelement.addEventListener("click", (del) => {
+        //data is variable we can store the data from eldata elly inside el json fy el app.js
+        fetch(`/item/${itemId}`, { method: "DELETE" })
+            .then((response) => response.json())
+            .then((data) => window.location.href = data.myLink)
+            .catch((err) => {
+                console.log(err);
+            });
+
+    })
+</script>
+</body>
+</html>

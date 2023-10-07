@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+  <body class="container bodyCustom">
+    <div class="container">
+      <button id="printButton" class="btn btn-lg btn-primary">Print Receipt</button>
+    </div>
+    <center>
+      <div><img src="/img/IMG-20231006-WA0016.jpg" style="width: 250px; height: 150px;"></div>
+    </center>
+    <h5>receipt date: <%= foundedReceipt.date %></h5>
+    <h5>receipt Number: <%= foundedReceipt.receiptNumber %></h5>
+
+    <label style="margin: 2%;">client Name: <%= foundedReceipt.clientName %> </label>
+    <label style="margin: 2%;">client Phone: <%= foundedReceipt.clientPhone %> </label>
+    <br>
+    <label style="margin: 2%;">pay type: <%= foundedReceipt.payType %>  </label>
+    
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">item</th>
+            <th scope="col">price</th>
+          </tr>
+        </thead>
+        <tbody id="item-table-body">
+          <% foundedReceipt.items.forEach((currentItem,index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= currentItem.name %></td>
+              <td><%= currentItem.price %></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      
+        <img src="/img/frame.png" alt="...." style="width: 150px; height: 150px; float: right;">
+        <h5>
+          <i class="fa-solid fa-location-dot"></i> Maadi Branch: 86 St.10 from Demesheq St. Swares Square.
+        </h5>
+        <h6>
+          <i class="fa-solid fa-phone"></i> 0122 229 8069
+        </h6>
+        <h5>
+          <i class="fa-solid fa-location-dot"></i> Zahraa El Maadi Branch: El Shatr No10 Zahraa El Maadi,beside Oops cafe and Hamada Ezzo.
+        </h5>
+        <h6>
+          <i class="fa-solid fa-phone"></i> 0111 488 3888
+        </h6>
+      
+      <h2>total Price : <span id="totalPrice"><%= foundedReceipt.totalPrice %></span> <span>LE</span> </h2>
+      <script>
+        const printButton = document.getElementById('printButton');
+      
+        printButton.addEventListener('click', () => {
+          window.print();
+        });
+      </script>
+  </body>
+
+</html>

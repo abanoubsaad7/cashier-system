@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+
+  <body class="container bodyCustom">
+    <form action="/add-receipt" method="post" style="margin: 2%;">
+      <label>client Name</label>
+      <input type="text" name="clientName" placeholder="client Name" style="margin: 2%;" required>
+      <label>client Phone</label>
+      <input type="text" name="clientPhone" placeholder="client Phone" style="margin: 2%;" required>
+      <label for="">total Price</label>
+      <input type="number" name="totalPrice" id="totalPrice" style="margin: 2%;" required>
+      <label>pay type</label>
+      <select name="payType">
+        <option value="cash">Cash</option>
+        <option value="visa">visa</option>
+      </select>
+      <button type="submit" class="btn btn-lg btn-success"><i class="fa-solid fa-check"></i> save</button>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">item</th>
+            <th scope="col">price</th>
+            <th scope="col">discount</th>
+            <th scope="col">manage</th>
+          </tr>
+        </thead>
+        <tbody id="item-table-body">
+        </tbody>
+      </table>
+    </form>
+    <button id="add-item-button" onclick="addItem()" class="btn btn-lg btn-info"><i class="fa-solid fa-plus"></i> add
+      item</button>
+
+    <script>
+      const itemTableBody = document.getElementById('item-table-body');
+      let rowCounter = 1;
+      let totalPriceInput = document.getElementById('totalPrice');
+      let priceInputs = document.querySelectorAll('.price-input');
+
+      const addItem = () => {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+        <tr>
+          <td>
+            <select name="itemName" onchange="updatePrice(this)" class="item-select">
+              <option>--select item--</option>
+              <% arritem.forEach(currentItem => { %>
+                <option value="<%= currentItem.name %>" data-price="<%= currentItem.price %>"><%= currentItem.name %></option>
+              <% }); %>
+            </select>
+          </td>
+          <td>
+            <input type="number" name="itemPrice" class="price-input"  required>
+          </td>
+          <td>
+            <select name="discount" class="discount"  onchange="applyDiscount(this)">
+              <option>--select--</option>
+              <% for (let i = 1; i <= 100; i++) { %>
+                <option value="<%= i %>"><%= i %></option>
+              <% } %>
+            </select>
+          </td>
+          <td>
+            <button class='btn btn-lg btn-danger' onclick="deleteRow(this)">
+              <i class="fa-solid fa-trash-can"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+        itemTableBody.appendChild(newRow);
+        rowCounter++;
+
+        // Function to calculate and apply discounts
+        const applyDiscount = (discountInput) => {
+          const row = discountInput.closest('tr');
+          const priceInput = row.querySelector('.price-input');
+          const itemPrice = parseFloat(priceInput.value);
+          const discountPercentage = parseFloat(discountInput.options[discountInput.selectedIndex].value);
+
+          if (!isNaN(itemPrice) && !isNaN(discountPercentage)) {
+            const discountedPrice = itemPrice - (itemPrice * discountPercentage / 100);
+            priceInput.value = discountedPrice.toFixed(2);
+            updateTotalPrice();
+          } else {
+            // If the discount input is empty or invalid, return to the original price
+            priceInput.value = itemPrice.toFixed(2);
+            updateTotalPrice();
+          }
+        };
+
+
+        // Add event listeners to discount <select> elements to apply discounts on change
+        const discountSelects = document.querySelectorAll('.discount');
+        discountSelects.forEach(discountSelect => {
+          discountSelect.addEventListener('change', () => applyDiscount(discountSelect));
+        });
+
+      };
+
+      const updatePrice = (selectElement) => {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const itemPrice = Number(selectedOption.getAttribute('data-price'));
+        const priceInput = selectElement.parentNode.nextElementSibling.querySelector('.price-input');
+
+        priceInput.value = isNaN(itemPrice) ? '' : itemPrice.toFixed(2);
+
+
+        updateTotalPrice();
+      };
+
+
+
+      const updateTotalPrice = () => {
+        let totalPrice = 0;
+        priceInputs = document.querySelectorAll('.price-input');
+        priceInputs.forEach(priceInput => {
+          const itemPrice = Number(priceInput.value);
+          if (!isNaN(itemPrice)) {
+            totalPrice += itemPrice;
+          }
+        });
+        totalPriceInput.value = totalPrice.toFixed(2);
+      };
+
+      const deleteRow = (deleteButton) => {
+        const row = deleteButton.closest('tr');
+        row.remove();
+        updateTotalPrice();
+      };
+    </script>
+  </body>
+
+</html>
