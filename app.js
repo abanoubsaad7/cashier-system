@@ -98,7 +98,7 @@ const isAdmin= (req, res, next)=>{
   if(req.user.role === 'admin'){
     next()
   }else{
-    res.send('you not authorized')
+    res.send('you are not authorized')
   }
 }
 
@@ -198,7 +198,7 @@ app.get("/delete-item/:itemID",verifyToken, isAdmin , (req, res) => {
 
 
 
-app.delete('/item/:itemID', function(req, res) {
+app.delete('/item/:itemID', verifyToken, isAdmin , function(req, res) {
   Item.findByIdAndDelete(req.params.itemID).then((result)=>{
     res.json({ myLink: "/manage-item" });
   })
@@ -297,6 +297,18 @@ app.post("/add-receipt",verifyToken, async (req, res) => {
   }
 });
 
+app.get('/delete-reciept/:receiptID', verifyToken, isAdmin , (req, res) => {
+  Receipt.findById(req.params.receiptID).then((result)=>{
+    res.render('confirm-delete-receipt',{objReceipt: result})
+  })
+})
+
+app.delete('/receipt/:receiptID', verifyToken , isAdmin , function(req, res) {
+  Receipt.findByIdAndDelete(req.params.receiptID).then((result)=>{
+    res.json({ myLink: "/main-page" });
+  })
+});
+
 app.get("/receipt-search",verifyToken,(req, res) => {
   res.render("receipt-search");
 });
@@ -358,7 +370,7 @@ app.get("/daily-report",verifyToken, (req, res) => {
 
   // Function to render the page with the results
   function renderPage() {
-    res.render("daily-report", { recieptsMatchWithDate: results });
+    res.render("daily-report", { recieptsMatchWithDate: results , user:req.user });
   }
 });
 
@@ -403,7 +415,7 @@ app.get("/monthly-report",verifyToken, (req, res) => {
 
   // Function to render the page with the results
   function renderPage() {
-    res.render("monthly-report", { recieptsMatchWithDate: results });
+    res.render("monthly-report", { recieptsMatchWithDate: results, user:req.user });
   }
 });
 

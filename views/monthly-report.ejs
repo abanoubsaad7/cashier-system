@@ -36,6 +36,9 @@
                     <%= receipt.totalPrice %>
                   </span> <span>LE</span></p>
                 <a href="reciept/<%= receipt._id %>" class="card-link">see more</a>
+                <% if(user.role==='admin' ) { %>
+                  <a href="delete-reciept/<%= receipt._id %>" class="card-link btn btn-danger">delete</a>
+                  <% } %>
               </div>
             </div>
           </div>
