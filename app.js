@@ -57,8 +57,8 @@ const generateToken = (user) => {
   const options = {
     expiresIn: "20h", // Token expiration time
   };
-
-  return jwt.sign(payload, secretKey, options);
+  const token = jwt.sign(payload, secretKey, options);
+  return token
 };
 
 const verifyToken = (req, res, next) => {
