@@ -12,7 +12,7 @@
   bottom: 0;
   left: 0;
   background: url('/img/logo-micheal2.png') center no-repeat;
-  opacity: 0.5;
+  opacity: 0.7;
   /* Set the opacity to make the photo semi-visible */
   z-index: -1;
   /* Place the overlay behind other content */
@@ -27,7 +27,7 @@
   left: 0;
   background-color: whitesmoke;
   /* Fallback background color */
-  opacity: 0.5;
+  opacity: 0.7;
   /* Set the opacity for the fallback background color */
   z-index: -1;
   /* Place the fallback background behind other content */
