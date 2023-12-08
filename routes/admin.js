@@ -1,6 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
+//models
+const User = require("../models/userModel");
+const Receipt = require("../models/receiptModel");
+const Item = require("../models/itemModel");
+
 
 router.get("/main-page", (req, res) => {
   res.render("main-page");
