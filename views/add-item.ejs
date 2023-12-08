@@ -3,7 +3,7 @@
   <%- include('partials/head') %>
 <body class="container bodyCustom">
   <center>
-    <br><br><br>
+    
     <div class="addingItem">
       <h1>Add item</h1>
       <form action="/add-items" method="post">
@@ -14,6 +14,17 @@
         <label>price</label>
         <br>
         <input type="number" name="price" style="margin: 2%;" class="login" required>
+        <br><br>
+        <label style="margin: 2%;">item type</label>
+        <select name="itemType" required>
+          <option value="main">main</option>
+          <option value="assist">assist</option>
+        </select>
+        <br><br>
+        <label>staff name</label>
+        <input type="text" name="staffName">
+        <br>
+        <p>if u didn't write staff name or assistnat name for this item <br> it automatically saved as beauty center-staff</p>
         <br><br>
         <input type="submit" class="btn btn-lg btn-success login" style="padding-bottom: 10%;" value="add">
       </form>

@@ -1,21 +1,3 @@
-// // const mongoose = require("mongoose");
-
-// // const Schema = mongoose.Schema;
-// // const receiptSchema = new Schema ({
-// //   clientName:String,
-// //   clientPhone:String,
-// //   receiptNumber:{
-// //     type : String ,
-    
-// //   },
-// //   items:Array,
-// //   totalPrice: Number,
-// // });
-// // const Receipt = mongoose.model("Receipt",receiptSchema);
-
-// // module.exports = Receipt;
-
-
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
@@ -27,9 +9,11 @@ const counterSchema = new Schema({
 const Counter = mongoose.model("Counter", counterSchema);
 
 const receiptSchema = new Schema({
+  workerName:String,
   clientName: String,
   clientPhone: String,
   payType:String,
+  branch:String,
   receiptNumber: {
     type: Number,
     unique: true

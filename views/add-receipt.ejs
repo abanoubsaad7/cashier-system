@@ -10,16 +10,24 @@
       <input type="text" name="clientPhone" placeholder="client Phone" style="margin: 2%;" required>
       <label for="">total Price</label>
       <input type="number" name="totalPrice" id="totalPrice" style="margin: 2%;" required>
+      <br><br>
+      <label>branch</label>
+      <select name="branch">
+        <option value="Elmaadi">Elmaadi</option>
+        <option value="Zahraa El Maadi">Zahraa El Maadi</option>
+      </select>
       <label>pay type</label>
       <select name="payType">
         <option value="cash">Cash</option>
         <option value="visa">visa</option>
       </select>
       <button type="submit" class="btn btn-lg btn-success"><i class="fa-solid fa-check"></i> save</button>
+      <br><br>
       <table class="table">
         <thead>
           <tr>
             <th scope="col">item</th>
+            <th scope="col">staff</th>
             <th scope="col">price</th>
             <th scope="col">discount</th>
             <th scope="col">manage</th>
@@ -43,15 +51,18 @@
         newRow.innerHTML = `
         <tr>
           <td>
-            <select name="itemName" onchange="updatePrice(this)" class="item-select">
+            <select name="itemName" onchange="updateStaffAndPrice(this)" class="item-select">
               <option>--select item--</option>
               <% arritem.forEach(currentItem => { %>
-                <option value="<%= currentItem.name %>" data-price="<%= currentItem.price %>"><%= currentItem.name %></option>
+                <option value="<%= currentItem.name %>" data-price="<%= currentItem.price %>"data-staff="<%= currentItem.staffName %>"><%= currentItem.name %></option>
               <% }); %>
             </select>
           </td>
           <td>
-            <input type="number" name="itemPrice" class="price-input"  required>
+            <input type="text" name="staffName" class="staff-input" readonly>
+          </td>
+          <td>
+            <input type="number" name="itemPrice" class="price-input"  required readonly>
           </td>
           <td>
             <select name="discount" class="discount"  onchange="applyDiscount(this)">
@@ -98,13 +109,16 @@
 
       };
 
-      const updatePrice = (selectElement) => {
+      const updateStaffAndPrice = (selectElement) => {
         const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const staffInput = selectElement.parentNode.nextElementSibling.querySelector('.staff-input');
+        const priceInput = selectElement.parentNode.nextElementSibling.nextElementSibling.querySelector('.price-input');
+
+        const staffName = selectedOption.getAttribute('data-staff');
         const itemPrice = Number(selectedOption.getAttribute('data-price'));
-        const priceInput = selectElement.parentNode.nextElementSibling.querySelector('.price-input');
 
+        staffInput.value = staffName;
         priceInput.value = isNaN(itemPrice) ? '' : itemPrice.toFixed(2);
-
 
         updateTotalPrice();
       };
